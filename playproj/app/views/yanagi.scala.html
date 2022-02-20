@@ -1,0 +1,27 @@
+@*
+ * This template is called from the `index` template. This template
+ * handles the rendering of the page header and body tags. It takes
+ * two arguments, a `String` for the title of the page and an `Html`
+ * object to insert into the body of the page.
+ *@
+@(title: String)
+
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        @* Here's where we render the page title `String`. *@
+        <title>やなぎーのページ</title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
+        <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@@2.6.11/dist/vue.min.js"></script>
+        <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    </head>
+    <body>
+        @* And here's where we render the `Html` object containing
+         * the page content. *@
+         <p>説話は、広義には、古くより伝承されて来た話・物語一般を意味する。狭義には、民話、伝説を指す。また、民話と同義の意味で使用されることもある。 本項では狭義の説話を説明する。 </p>
+         <p>ドイツ語のメルヘン/メルヒェン、英語の<b>フェアリーテイル</b>を含んでいる。<a href="https://www.lafary.net/culture/52778/">メルヘン</a>は、スティス・トンプソン以降、英語圏でもよく使われるようになった。</p>
+    </body>
+</html>
