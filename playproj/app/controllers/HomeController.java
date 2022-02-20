@@ -9,7 +9,7 @@ import play.mvc.*;
 public class HomeController extends Controller {
 
 
-    private String MAIN_VIEW_TITLE_TEXT = "けいおんWeb１";
+    private String MAIN_VIEW_TITLE_TEXT = "けいおんWeb２";
 
     /**
      * An action that renders an HTML page with a welcome message.
