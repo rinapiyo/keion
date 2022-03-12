@@ -10,6 +10,7 @@ public class HomeController extends Controller {
 
 
     private String MAIN_VIEW_TITLE_TEXT = "XXX";
+    private String MAIN_VIEW_TITLE_TEXT_CALCULATOR = "電卓";
 
     /**
      * An action that renders an HTML page with a welcome message.
@@ -26,5 +27,8 @@ public class HomeController extends Controller {
     }
     public Result aika() {
         return ok(views.html.yanagi.render(MAIN_VIEW_TITLE_TEXT));
+    }
+    public Result calculator() {
+        return ok(views.html.calculator.render(MAIN_VIEW_TITLE_TEXT_CALCULATOR));
     }
 }
