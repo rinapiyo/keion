@@ -1,78 +1,120 @@
 <!DOCTYPE html>
 <html lang="ja">
 <body>
-<div id="formula">ここに式を表示する</div>
-<div id="disp">0</div>
+<div id="formula">&nbsp;</div>
+<div id="calcResult">0</div>
 <div id="keys">
     <div id="func">
-        <input type="button" id="func-ac" value="AC"></input>
+        <input type="button" id="func-ac" value="AC" onclick="displayCalcResultZero()"></input>
         <input type="button" id="func-plusMinus" value="+/-"></input>
         <input type="button" id="func-perc" value="%"></input>
     </div>
     <div id="num">
-        <input type="button" id="num-7" value="7"  onclick="test(value)"></input> 
-        <input type="button" id="num-8" value="8" onclick="test(value)"></input>
-        <input type="button" id="num-9" value="9"></input>
-        <input type="button" id="num-4" value="4"></input>
-        <input type="button" id="num-5" value="5"></input>
-        <input type="button" id="num-6" value="6"></input>
-        <input type="button" id="num-1" value="1" onclick="clickOne()"></input>
-        <input type="button" id="num-2" value="2" onclick="clickTwo()"></input>
-        <input type="button" id="num-3" value="3" onclick="clickThree()"></input>
-        <input type="button" id="num-0" value="0"></input>
-        <input type="button" id="num-point" value="."></input>
+        <input type="button" id="num-7" value="7" onclick="displayCalcResult(value)"></input> 
+        <input type="button" id="num-8" value="8" onclick="displayCalcResult(value)"></input>
+        <input type="button" id="num-9" value="9" onclick="displayCalcResult(value)"></input>
+        <input type="button" id="num-4" value="4" onclick="displayCalcResult(value)"></input>
+        <input type="button" id="num-5" value="5" onclick="displayCalcResult(value)"></input>
+        <input type="button" id="num-6" value="6" onclick="displayCalcResult(value)"></input>
+        <input type="button" id="num-1" value="1" onclick="displayCalcResult(value)"></input>
+        <input type="button" id="num-2" value="2" onclick="displayCalcResult(value)"></input>
+        <input type="button" id="num-3" value="3" onclick="displayCalcResult(value)"></input>
+        <input type="button" id="num-0" value="0" onclick="displayCalcResult(value)"></input>
+        <input type="button" id="num-point" value="." onclick="displayCalcResult(value)"></input>
+        <input type="button" id="test" value="test" onclick="test()"></input>
     </div>
     <div id="operator">
-        <input type="button" id="ope-divide" value="÷"></input>
-        <input type="button" id="ope-times" value="×"></input>
-        <input type="button" id="ope-substract" value="－"></input>
-        <input type="button" id="ope-add" value="＋" onclick="clickAdd()"></input>
-        <input type="button" id="ope-equal" value="＝" onclick="clickEqual()"></input>
+        <input type="button" id="ope-divide" value="÷" onclick="clickDivide()"></input>
+        <input type="button" id="ope-times" value="×" onclick="clickTimes()"></input>
+        <!-- <input type="button" id="ope-subtract" value="-" onclick="clickSubtract()"></input> -->
+        <input type="button" id="ope-subtract" value="-" onclick="clickOperator(value)"></input>
+        <!-- <input type="button" id="ope-add" value="＋" onclick="clickAdd()"></input> -->
+        <input type="button" id="ope-add" value="+" onclick="clickOperator(value)"></input>
+        <input type="button" id="ope-equal" value="=" onclick="clickEqual()"></input>
     </div>
 </div>
 <script>
+    //グローバル変数の例
+    //一元化、ユニーク（一意性）
+    var glob = "";
+
+    var globCalcResult; //メイン表示
+    var globPreCalcResult = ''; //前の計算結果
+    var numInputMode = true; //true: 数字入力モード, false: 演算子入力モード
+
     function clickEqual(){
         // var aaa = document.getElementById("num-7").attributes.value;
         var aaa = document.getElementById("num-6").value;
         alert('イコールを押した' + aaa);
     }
-    function clickAdd(){
-        var aaa = document.getElementById("disp");
-        document.getElementById("disp").textContent = 'プラスを押しました';
-        // alert('プラスを押した' + aaa.textContent);
-    }
-    function clickOne(){
-        var dispElement = document.getElementById("disp");
-        var inputNumber = document.getElementById("num-1").value;
-        if(dispElement.textContent == "0"){
-            dispElement.textContent = inputNumber;
+    function clickOperator(inputOperator){
+        if(globPreCalcResult == ''){
+            globPreCalcResult = globCalcResult;
         }else{
-            dispElement.textContent = dispElement.textContent + inputNumber;
+            switch(inputOperator){
+                case '+':
+                    globPreCalcResult = Number(globPreCalcResult) + Number(globCalcResult);
+                    break;
+                case '-':
+                    globPreCalcResult = Number(globPreCalcResult) - Number(globCalcResult);
+                    break;
+                case '×':
+                    globPreCalcResult = Number(globPreCalcResult) * Number(globCalcResult);
+                    break;
+                case '÷':
+                    globPreCalcResult = Number(globPreCalcResult) / Number(globCalcResult);
+                    break;
+                default:
+                    break;
+            }
+            document.getElementById("calcResult").textContent = globPreCalcResult;
         }
-        document.getElementById("formula").textContent = inputNumber;
+        document.getElementById("formula").textContent = globPreCalcResult + inputOperator;
+        numInputMode = false;
     }
-    function clickTwo(){
-        var dispElement = document.getElementById("disp");
-        var inputNumber = document.getElementById("num-2").value;
-        if(dispElement.textContent == "0"){
-            dispElement.textContent = inputNumber;
-        }else{
-            dispElement.textContent = dispElement.textContent + inputNumber;
+
+
+    function displayCalcResult(inputNumber) {
+        var calcResultElement = document.getElementById("calcResult");
+        // inputNumberが.かつすでに.がcalcResultElementに含まれていた場合、終了
+        if (inputNumber == "." && calcResultElement.textContent.indexOf('.') !== -1) return;
+        
+        // if (calcResultElement.textContent == "0" && inputNumber !== ".") {
+        //     globCalcResult = inputNumber;
+        // } else if(numInputMode == false){        
+        //     globCalcResult = inputNumber;
+        //     numInputMode = true;
+        // } else {
+        //     globCalcResult = calcResultElement.textContent + inputNumber;
+        // }
+
+        //globCalcResultに表示する数値を入れる
+        //演算子入力モードまたは、ゼロかつ、ドット以外の数字を押された
+        if (numInputMode == false || (calcResultElement.textContent == "0" && inputNumber !== ".")) {
+            globCalcResult = inputNumber;
+        //ゼロじゃない、または「.」を入力した場合
+        } else {
+            globCalcResult = calcResultElement.textContent + inputNumber;
         }
-        document.getElementById("formula").textContent = inputNumber;
-    }
-    function clickThree(){
-        var dispElement = document.getElementById("disp");
-        var inputNumber = document.getElementById("num-3").value;
-        if(dispElement.textContent == "0"){
-            dispElement.textContent = inputNumber;
-        }else{
-            dispElement.textContent = dispElement.textContent + inputNumber;
+        
+        //演算子入力モードの場合、数字入力モードに変える
+        if (numInputMode == false) {
+            numInputMode = true;
         }
-        document.getElementById("formula").textContent = inputNumber;
+
+        //globCalcResultを画面に表示する
+        calcResultElement.textContent = globCalcResult;
     }
-    function test(bbb){
-        document.getElementById("formula").textContent = bbb;
+    // calcResultをゼロにする関数
+    function displayCalcResultZero(){
+        document.getElementById("calcResult").textContent = "0";
+        document.getElementById("formula").textContent = "0";
+        globCalcResult = 0;
+        globPreCalcResult = 0;
+    }
+
+    function rinapiyo(){
+
     }
 </script>
 </body>
