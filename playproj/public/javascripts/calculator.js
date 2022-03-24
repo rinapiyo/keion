@@ -4,6 +4,7 @@ var indexVue = new Vue({
     "<div> " +
         "<div id='formula'>{{ formulaText }}</div> " +
         "<div id='calcResult'>{{ calcResultText }}</div> " +
+        "<div>入力した内容：{{ inputContent }}</div> " +
         "<div id='keys'> " +
             "<div id='func'> " +
                 "<input type='button' id='func-ac' value='AC' @click='displayCalcResultZero()'></input> " +
@@ -35,6 +36,7 @@ var indexVue = new Vue({
             "<div>{{message}}</div>" +
         "</div> " ,
     data: {
+        inputContent: '何も入力していません',
         formulaText: '　',
         calcResultText: 0,
         message: '電卓移行先',
@@ -48,7 +50,8 @@ var indexVue = new Vue({
         },
 
         displayCalcResult: function(inputNumber) {
-            console.log(inputNumber);
+            this.inputContent = inputNumber;
+
             // var calcResultElement = document.getElementById("calcResult");
             // // inputNumberが.かつすでに.がcalcResultElementに含まれていた場合、終了
             // if (inputNumber == "." && calcResultElement.textContent.indexOf('.') !== -1) return;
@@ -89,6 +92,8 @@ var indexVue = new Vue({
 
         // calcResultをゼロにする関数
         displayCalcResultZero: function(){
+            this.inputContent = 'AC';
+
             document.getElementById("calcResult").textContent = "0";
             document.getElementById("formula").textContent = "0";
             // this.calcResultText = '0';
@@ -98,6 +103,8 @@ var indexVue = new Vue({
         },
     
         clickOperator: function(inputOperator){
+            this.inputContent = inputOperator;
+
             if(this.globPreCalcResult == ''){
                 this.globPreCalcResult = this.globCalcResult;
             }else{
